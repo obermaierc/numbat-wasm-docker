@@ -14,7 +14,7 @@ jobs:
         with:
           registry: ghcr.io
           username: obermaierc
-          passwort: ${{ secrets.TOKEN_OBERMAIERC_GITHUB }}
+          password: ${{ secrets.TOKEN_OBERMAIERC_GITHUB }}
       - name: Build image
         run: |
           IMAGE_NAME=ghcr.io/${GITHUB_REPOSITORY}
