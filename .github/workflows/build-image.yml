@@ -1,0 +1,26 @@
+name: Build container image
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login in Github Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: obermaierc
+          passwort: ${{ secrets.TOKEN_OBERMAIERC_GITHUB }}
+      - name: Build image
+        run: |
+          IMAGE_NAME=ghcr.io/${GITHUB_REPOSITORY}
+          IT_LATEST=$IMAGE_NAME:latest
+          IT_HASH=$IMAGE_NAME:${{ github.sha }}
+          RELEASE_NAME=$(echo $GITHUB_REF | cut -d'/' -f 3)
+          IT_RELEASE=${IMAGE_NAME}:${RELEASE_NAME}
+          docker build -t $IT_LATEST -t $IT_HASH -t $IT_RELEASE .
+          docker push --all-tags $IMAGE_NAME
