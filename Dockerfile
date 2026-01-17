@@ -1,4 +1,4 @@
-FROM rust:1-bullseye
+FROM rust:1-bullseye AS build
 
 RUN cargo install wasm-pack
 
@@ -7,4 +7,7 @@ RUN git clone https://github.com/sharkdp/numbat.git
 
 RUN cd numbat/numbat-wasm && bash build.sh
 
-CMD ["python3", "-m", "http.server", "-d", "/app/numbat/numbat-wasm/www/"]
+FROM nginx:1.29
+
+COPY --from=build /app/numbat/numbat-wasm/www /usr/share/nginx/html
+
