@@ -9,6 +9,8 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
+      - name: Check out code
+        uses: actions/checkout@v2
       - name: Login in Github Container Registry
         uses: docker/login-action@v3
         with:
