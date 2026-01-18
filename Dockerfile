@@ -11,3 +11,5 @@ FROM nginx:1.29
 
 COPY --from=build /app/numbat/numbat-wasm/www /usr/share/nginx/html
 
+LABEL org.opencontainers.image.source=https://github.com/obermaierc/numbat-wasm-docker
+LABEL org.opencontainers.image.description="dockized numbat wasm"
